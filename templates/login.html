@@ -1,0 +1,14 @@
+{% extends 'core.html' %}
+
+{% block content %}
+<div class="container mx-3 my-3">
+    <h1>Login page</h1>
+        <form action="" method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.username(class_="form-control my-3") }}
+            {{ form.password(class_="form-control") }}
+            {{ form.submit(class_="my-3 btn btn-primary") }}
+        </form>
+</div>
+
+    {% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'core.html' %}
+
+{% block content %}
+    <div class="container mx-auto text-center">
+        <a id='refreshBtn' class="btn btn-primary mb-3">Refresh</a>
+
+        <div id="resultContainer"></div>
+    </div>
+<script>
+    refreshBtn = document.getElementById('refreshBtn');
+    resultContainer = document.getElementById('resultContainer')
+
+    $("#refreshBtn").click(function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            url:"{{ url_for('get_data') }}",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(data) {
+                for (var i = 0; i < data.length; i++) {
+                    var obj = data[i];
+                    
+
+                    //creating elements
+                    card = document.createElement("div")
+                    cardBody= document.createElement("div")
+                    
+                    // inserting inside div 
+                    resultContainer.appendChild(card)
+                    resultContainer.appendChild(cardBody)
+
+                    //creating title and price
+                    cardTitle = document.createElement('h5')
+                    cardPrice = document.createElement('h6')
+                    cardImage = document.createElement('img')
+                    deleteButton = document.createElement('button')
+
+                    //inserting inside child div
+                    cardTitle = card.appendChild(cardTitle)
+                    cardPrice = card.appendChild(cardPrice)
+                    cardImage = card.appendChild(cardImage)
+                    cardDeleteBtn = card.appendChild(deleteButton)
+
+                    // Inserting data inside each `card`
+                    cardTitle.innerHTML += obj.title 
+                    cardPrice.innerHTML += obj.price
+                    cardImage.src = obj.image
+                    cardDeleteBtn.innerHTML += 'Delete'
+
+                    // adding classes
+                    card.className+= "card my-3"
+                    cardBody.className += "card-body my-3"
+                    cardDeleteBtn.className +="btn btn-danger"
+                    cardImage.className='rounded mx-auto d-block my-3'
+
+
+                    deleteButton.addEventListener('click', function(e){
+                        e.target.parentNode.remove();
+                      });
+            
+
+
+                }
+            }
+        });
+
+
+
+
+      });
+
+</script>
+{% endblock %}
